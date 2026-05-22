@@ -2,11 +2,11 @@
 
 Windows system-tray screen recorder. Python 3.12 + PySide6 + bundled ffmpeg, packaged as an Inno Setup installer.
 
-> **Naming caveat:** the project directory is `screenrec/` and internal storage keys still say `ScreenRec`. The product was renamed to **TrayRecorder** later — only user-facing strings reflect the new name. See "Naming convention" below before renaming anything else.
+> **Naming caveat:** the project directory is `trayrecorder/` but internal storage keys, the entry script (`screenrec.py`), and temp-dir prefixes still say `ScreenRec`/`screenrec`. The product was renamed to **TrayRecorder** later — user-facing strings and the project directory reflect the new name; internal identifiers do not. See "Naming convention" below before renaming anything else.
 
 ## Build & run
 
-Working directory: `C:\Users\Work\dev\screenrec`
+Working directory: `C:\Users\Mike\dev\trayrecorder`
 
 ```powershell
 # Dev run (no install)
@@ -22,7 +22,7 @@ pwsh -File build.ps1
 
 Dependencies installed once via `requirements.txt` + manually-added `pyinstaller==6.10.0`. ffmpeg.exe (essentials build from gyan.dev) lives at `src\resources\ffmpeg\ffmpeg.exe` and is bundled by PyInstaller `--add-data`.
 
-Inno Setup ISCC at `C:\Users\Work\AppData\Local\Programs\Inno Setup 6\ISCC.exe` (installed via winget `JRSoftware.InnoSetup`).
+Inno Setup ISCC is auto-detected by `build.ps1` at `C:\Program Files (x86)\Inno Setup 6\ISCC.exe` or `C:\Program Files\Inno Setup 6\ISCC.exe`. Install via winget `JRSoftware.InnoSetup`. If not present, `build.ps1` skips the installer step and prints install instructions — the PyInstaller bundle in `dist\TrayRecorder\` still works on its own.
 
 ## Module map
 
@@ -80,7 +80,7 @@ The product was renamed from "ScreenRec" → "TrayRecorder" partway through. Rul
 | **QSettings storage** (`HKCU\Software\Natran\ScreenRec`) | ScreenRec | Renaming would lose users' existing preferences |
 | **Autostart registry value name** (`NatranScreenRec`) | ScreenRec | Cleanly overwrites old install's entry on upgrade |
 | **Singleton mutex** (`NatranScreenRec-singleton`) | ScreenRec | Internal; no reason to change |
-| **Project directory** (`screenrec/`) | screenrec | Internal; no reason to change |
+| **Project directory** (`trayrecorder/`) | trayrecorder | Renamed from `screenrec/` to match product |
 | **`screenrec.py` entry script** | screenrec | Internal; PyInstaller entry |
 | **Temp dir prefix** (`%TEMP%\screenrec_*`) | screenrec | Internal |
 
