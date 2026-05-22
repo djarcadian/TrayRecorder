@@ -142,7 +142,7 @@ class TrayApp(QObject):
     def _show_menu_flush(self) -> None:
         """Show the tray menu anchored against the taskbar (no gap)."""
         self._rebuild_menu()
-        if not self.recorder.is_active():
+        if not self.recorder.is_active() and len(QGuiApplication.screens()) > 1:
             self.monitor_overlay.show()
 
         cursor = QCursor.pos()
