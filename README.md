@@ -51,8 +51,8 @@ TrayRecorder writes to a temporary MKV during capture and remuxes to your chosen
 ## Build from source
 
 ```powershell
-git clone <repo> screenrec
-cd screenrec
+git clone https://github.com/djarcadian/TrayRecorder.git
+cd TrayRecorder
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\pip install pyinstaller==6.10.0
