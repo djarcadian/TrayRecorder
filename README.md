@@ -77,3 +77,12 @@ Windows **Settings → Apps → TrayRecorder → Uninstall**, or run the uninsta
 - WASAPI loopback can drop audio packets under heavy CPU load.
 - Recording multiple monitors into one file isn't supported (use Custom to span them).
 - No webcam overlay, no pause/resume, no editing.
+
+## License
+
+TrayRecorder's own source code is released under the [MIT License](LICENSE).
+
+The distributed installer and portable bundle include third-party software
+under their own licenses — most notably a GPL-licensed build of FFmpeg. See
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the full list and
+redistribution obligations.
