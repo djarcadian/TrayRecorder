@@ -149,20 +149,38 @@ class TrayApp(QObject):
         screen = QGuiApplication.screenAt(cursor) or QGuiApplication.primaryScreen()
         avail = screen.availableGeometry()  # excludes the taskbar
 
-        # Force the menu to compute its layout so sizeHint() is accurate.
+        # sizeHint() before show is only an estimate — style padding and
+        # DPI rounding aren't applied until the menu materializes, so on
+        # Windows the real height tends to be a few px taller than the
+        # estimate. Use sizeHint() for initial placement, then re-anchor
+        # against the taskbar using the actual height after popup so the
+        # menu doesn't overlap the taskbar.
         self.menu.ensurePolished()
         size = self.menu.sizeHint()
 
-        # Bottom edge flush with the available-area bottom (taskbar top).
         y = avail.bottom() - size.height() + 1
-        # Right edge near the click; clamp if it would overflow.
         x = cursor.x() - size.width() // 2
         if x + size.width() > avail.right():
             x = avail.right() - size.width() + 1
         if x < avail.left():
             x = avail.left()
+        if y < avail.top():
+            y = avail.top()
 
         self.menu.popup(QPoint(x, y))
+
+        actual_w = self.menu.width()
+        actual_h = self.menu.height()
+        final_y = avail.bottom() - actual_h + 1
+        final_x = x
+        if final_x + actual_w > avail.right():
+            final_x = avail.right() - actual_w + 1
+        if final_x < avail.left():
+            final_x = avail.left()
+        if final_y < avail.top():
+            final_y = avail.top()
+        if (final_x, final_y) != (x, y):
+            self.menu.move(final_x, final_y)
 
     def _build_idle_menu(self) -> None:
         monitors = enumerate_monitors()
